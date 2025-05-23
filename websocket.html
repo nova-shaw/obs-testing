@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Websocket</title>
+  <meta name="google" content="notranslate">
+</head>
+<body>
+  <h1>WS</h1>
+  <button id="send">Message</button>
+</body>
+<script>
+  // const socket0 = new WebSocket('ws://192.168.3.188:4455');
+  // const sock = new WebSocket('wss://192.168.3.188:4455');
+  // const socket2 = new WebSocket('obsws://192.168.3.188:4455');
+  const sock = new WebSocket('wss://192.168.3.188:4455/huwspZ8H7vTp0CYL');
+
+  const btnSend = document.querySelector('#send');
+  btnSend.addEventListener('click', e => {
+    sock.send('From page...');
+  })
+
+</script>
+</html>
