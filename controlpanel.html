@@ -7,9 +7,9 @@
 
   <!-- <script src="https://unpkg.com/obs-websocket-js"></script> -->
   <!-- <script src="https://cdn.jsdelivr.net/npm/obs-websocket-js"></script> -->
-  <script src="./panel-controls.js" type="module"></script>
+  <script src="./controlpanel.js" type="module"></script>
   <style>
-    
+
     html {
       /* SET 1 */
       /* --fill-camera1: #e099fe;
@@ -42,14 +42,22 @@
       --fill-media2:  #3e5b9f;
       --fill-keyed1:  #99d4a2;
       --fill-keyed2:  #85ae91; */
-      
+
       /* SET 5 */
-      --fill-camera1: #d09fbc;
+      /* --fill-camera1: #d09fbc;
       --fill-camera2: #4f3a77;
       --fill-media1:  #6989c4;
       --fill-media2:  #3e5b9f;
       --fill-keyed1:  #99d4a2;
-      --fill-keyed2:  #85ae91;
+      --fill-keyed2:  #85ae91; */
+
+      /* SET 6 */
+      --fill-camera1: #d973af;
+      --fill-camera2: #791e90;
+      --fill-media1: #00b4ff;
+      --fill-media2: #0073ff;
+      --fill-keyed1: #0fb;
+      --fill-keyed2: #00cc96;
     }
 
     body {
@@ -96,7 +104,7 @@
       align-content: flex-start;
       height: 10em;
       gap: 0.5em; */
-      
+
       display: grid;
       /* gap: 0.5em; */
       /* grid-template-columns: repeat(auto-fill, minmax(9em, 1fr)); */
@@ -257,7 +265,7 @@
 
         <rect class="fill-keyed2" width="800" height="600"/>
         <rect fill="url(#pattern-lines2)" width="800" height="600" />
-        
+
         <g class="color-camera2">
           <use xlink:href="#svg-person" fill="currentColor" />
         </g>

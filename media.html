@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Display</title>
+  <meta name="google" content="notranslate">
+  <link rel="stylesheet" href="base.css">
+  <style>
+    html {
+      background-color: #0fb;
+    }
+    body {
+      margin: 0;
+      font-size: 4cqw;
+      padding: 1em;
+    }
+    #cursor {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5cqw;
+      aspect-ratio: 1;
+      background-color: #f00;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>Media</h2>
+  <button id="btnMsg">Say 'media'</button>
+  <div id="msgOutput">[msg]</div>
+  <div id="cursor"></div>
+</body>
+<script>
+  const bc = new BroadcastChannel('chan');
+
+  const msgOutput = document.querySelector('#msgOutput');
+
+  const btnMsg = document.querySelector('#btnMsg');
+  btnMsg.addEventListener('click', e => {
+    bc.postMessage(`Media! ${new Date().getTime()}`);
+  });
+
+  bc.addEventListener("message", (event) => {
+    msgOutput.textContent = event.data;
+    if (event.data.key && event.data.key == 'bg') {
+      body.style.backgroundColor = event.data.val
+    }
+  });
+
+
+  const cursor = document.querySelector('#cursor');
+  window.addEventListener('pointermove', (e) => {
+    if (!e.isPrimary) return; // Ignore extra pointers when on multi-touch device
+    document.body.classList.add('show-cursor');
+    cursor.style.translate = `${e.pageX}px ${e.pageY}px`;
+    // cursor.style.translate = `${(e.pageX / window.innerWidth * 100)}% ${e.pageY / window.innerHeight * 100}%`;
+    // cursor.style = `left: ${(e.pageX / window.innerWidth * 100)}%; top: ${e.pageY / window.innerHeight * 100}%`;
+  });
+
+</script>
+</html>
