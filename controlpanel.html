@@ -4,26 +4,319 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Control Panel</title>
-  <meta name="google" content="notranslate">
-  <link rel="stylesheet" href="base.css">
+
+  <!-- <script src="https://unpkg.com/obs-websocket-js"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/obs-websocket-js"></script> -->
+  <script src="./panel-controls.js" type="module"></script>
+  <style>
+    
+    html {
+      /* SET 1 */
+      /* --fill-camera1: #e099fe;
+      --fill-camera2: #8a12b2;
+      --fill-media1:  #2cf;
+      --fill-media2:  #316eff;
+      --fill-keyed1:  #0fb;
+      --fill-keyed2:  #40bf5f; */
+
+      /* SET 2 - pastels from current OBS UI */
+      /* --fill-camera1: #f7eede;
+      --fill-camera2: #c7a7bb;
+      --fill-media1:  #dae5eb;
+      --fill-media2:  #67a9a2;
+      --fill-keyed1:  #dbffe4;
+      --fill-keyed2:  #91ffac; */
+
+      /* SET 3 */
+      /* --fill-camera1: #b57ac2;
+      --fill-camera2: #4f3a77;
+      --fill-media1:  #89b1fb;
+      --fill-media2:  #4364b1;
+      --fill-keyed1:  #c3e8a5;
+      --fill-keyed2:  #8bc380; */
+
+      /* SET 4 */
+      /* --fill-camera1: #c6b3ab;
+      --fill-camera2: #635d81;
+      --fill-media1:  #6989c4;
+      --fill-media2:  #3e5b9f;
+      --fill-keyed1:  #99d4a2;
+      --fill-keyed2:  #85ae91; */
+      
+      /* SET 5 */
+      --fill-camera1: #d09fbc;
+      --fill-camera2: #4f3a77;
+      --fill-media1:  #6989c4;
+      --fill-media2:  #3e5b9f;
+      --fill-keyed1:  #99d4a2;
+      --fill-keyed2:  #85ae91;
+    }
+
+    body {
+      background-color: #2b2e38;
+    }
+
+    .fill-camera1 { fill: var(--fill-camera1); }
+    .fill-camera2 { fill: var(--fill-camera2); }
+    .fill-media1 { fill: var(--fill-media1); }
+    .fill-media2 { fill: var(--fill-media2); }
+    .fill-keyed1 { fill: var(--fill-keyed1); }
+    .fill-keyed2 { fill: var(--fill-keyed2); }
+    .fill-white { fill: #fff; }
+
+    .color-camera1 { color: var(--fill-camera1); }
+    .color-camera2 { color: var(--fill-camera2); }
+    .color-media1  { color: var(--fill-media1); }
+    .color-media2  { color: var(--fill-media2); }
+    .color-keyed1  { color: var(--fill-keyed1); }
+    .color-keyed2  { color: var(--fill-keyed2); }
+
+    svg {
+      /* max-width: 10em; */
+      display: block;
+    }
+
+    svg#reusables {
+      display: none;
+    }
+
+    button {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      padding: 0;
+    }
+
+    #obs-scene-buttons {
+      /* display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      height: 10em;
+      gap: 0.5em; */
+      
+      display: grid;
+      /* gap: 0.5em; */
+      /* grid-template-columns: repeat(auto-fill, minmax(9em, 1fr)); */
+      /* grid-template-columns: repeat(auto-fit,  minmax(6em, 1fr)); */
+      /* grid-template-columns: repeat(auto-fit, 25%); */
+      grid-template-columns: repeat(auto-fit, 20%);
+    }
+
+    .btn-obs-scene {
+      border-radius: 0.5em;
+      overflow: hidden;
+      /* height: 45%; */
+      aspect-ratio: 4/3;
+      cursor: pointer;
+      margin: 0.25em;
+      position: relative;
+      color: transparent;
+    }
+
+    .btn-obs-scene::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      box-shadow: inset 0 0 0 5px currentColor;
+      border-radius: inherit;
+    }
+
+    .btn-obs-scene:hover {
+      /* box-shadow: 0 0 0 3px #fff; */
+      /* background-color: #fff; */
+      color: #fff;
+    }
+
+  </style>
 </head>
 <body>
-  <h1>Control Panel</h1>
-  <button id="btnMsg">Say 'Control Panel!'</button>
-  <div id="msgOutput">[msg]</div>
+
+  <!-- <div id="color-inputs">
+    <input type="color" name="camera1">
+    <input type="color" name="camera2">
+
+    <input type="color" name="media1">
+    <input type="color" name="media2">
+
+    <input type="color" name="keyed1">
+    <input type="color" name="keyed2">
+  </div>
+ -->
+  <div id="obs-scene-buttons">
+
+    <svg id="reusables" viewBox="0 0 800 600">
+      <defs>
+        <g id="svg-person">
+          <path fill="currentColor" d="M400,140c44.183,0 80,35.817 80,80c-0,6.643 -0,13.359 -0,20.002c0,21.217 -8.428,41.565 -23.431,56.567c-15.002,15.003 -35.35,23.431 -56.567,23.431l-0.004,0c-21.217,-0 -41.565,-8.428 -56.567,-23.431c-15.003,-15.002 -23.431,-35.35 -23.431,-56.567l0,-20.002c0,-44.183 35.817,-80 80,-80c-0,-0 -0,-0 0,-0Z"/>
+          <path fill="currentColor" d="M400,330c82.843,0 150,67.157 150,150c-0,75 -0,150 -0,150l-300,0l0,-150c0,-82.843 67.157,-150 150,-150c-0,0 -0,0 0,0Z"/>
+        </g>
+        <g id="svg-landscape">
+          <path fill="currentColor" d="M306.082,628.248l-446.203,-0l0,-124.123l250.011,-250.01c28.246,-28.247 66.556,-44.115 106.502,-44.115c39.945,-0 78.255,15.868 106.501,44.115l173.802,173.801l59.397,-59.398c28.246,-28.246 66.556,-44.114 106.502,-44.114c39.946,-0 78.256,15.868 106.502,44.114l250.904,250.904l-0,123.23l-713.918,-0l-0,-114.404Z"/>
+        </g>
+        <rect id="pip-rect" x="70" y="70" width="294" height="210"/>
+        <circle id="pip-circle" cx="660" cy="140" r="100" />
+
+        <pattern id="pattern-lines" class="color-keyed1" viewBox="0 0 8 8" width="80" height="80" patternUnits="userSpaceOnUse" >
+          <path d="M4,0 l4,4 m-4,4 l-4,-4" stroke="currentColor" stroke-width="3" stroke-linecap="square"></path>
+        </pattern>
+
+        <pattern id="pattern-lines-shape" class="color-keyed1" viewBox="0 0 8 8" width="80" height="80" patternUnits="userSpaceOnUse" >
+          <!-- <path d="M4,0 l4,4 m-4,4 l-4,-4" stroke="#fff" stroke-width="3" stroke-linecap="square"></path> -->
+          <path d="M4,0 l4,0 l0,4 l-4,-4 m0,8 l-4,0 l0,-4 l4,4" fill="#fff"/>
+        </pattern>
+
+      </defs>
+    </svg>
+
+
+    <button class="btn-obs-scene" id="obs-scene-camera1">
+      <svg id="view-camera1" width="100%" height="100%" viewBox="0 0 800 600">
+        <g class="color-camera1">
+          <rect x="0" y="0" width="800" height="600" fill="currentColor"/>
+        </g>
+        <g class="color-camera2">
+          <use xlink:href="#svg-person" fill="currentColor" />
+          <rect x="0" y="510" width="800" height="90" fill="currentColor" />
+        </g>
+      </svg>
+    </button>
+
+    <button class="btn-obs-scene" id="obs-scene-camera1-pip-media">
+      <svg id="view-camera1-pip-media" width="100%" height="100%" viewBox="0 0 800 600">
+        <defs>
+          <clipPath id="pip-rect-clip"><use xlink:href="#pip-rect"/></clipPath>
+        </defs>
+        <g class="color-camera1">
+          <rect x="0" y="0" width="800" height="600" fill="currentColor"/>
+        </g>
+        <g class="color-camera2">
+          <use xlink:href="#svg-person" fill="currentColor" transform="translate(160 0)"/>
+          <rect x="0" y="510" width="800" height="90" fill="currentColor" />
+        </g>
+        <g class="color-media1">
+          <use xlink:href="#pip-rect" fill="currentColor" />
+        </g>
+        <g class="color-media2" clip-path="url(#pip-rect-clip)">
+          <use xlink:href="#svg-landscape" fill="currentColor" transform="translate(70 70) scale(0.35)"/>
+        </g>
+      </svg>
+    </button>
+
+    <button class="btn-obs-scene" id="obs-scene-media">
+      <svg id="view-media" width="100%" height="100%" viewBox="0 0 800 600">
+        <g class="color-media1">
+          <rect fill="currentColor" x="0" y="0" width="800" height="600" />
+        </g>
+        <g class="color-media2">
+          <use xlink:href="#svg-landscape" fill="currentColor"/>
+        </g>
+      </svg>
+    </button>
+
+    <button class="btn-obs-scene" id="obs-scene-media-pip-camera1">
+      <svg id="view-media-pip-camera1" width="100%" height="100%" viewBox="0 0 800 600">
+        <defs>
+          <clipPath id="pip-circle-clip"><use xlink:href="#pip-circle"/></clipPath>
+        </defs>
+        <g class="color-media1">
+          <rect fill="currentColor" x="0" y="0" width="800" height="600" />
+        </g>
+        <g class="color-media2">
+          <use xlink:href="#svg-landscape" fill="currentColor"/>
+        </g>
+        <g class="color-camera1">
+          <use xlink:href="#pip-circle" fill="currentColor"/>
+        </g>
+        <g class="color-camera2" clip-path="url(#pip-circle-clip)">
+          <use xlink:href="#svg-person" fill="currentColor" transform="translate(460 10) scale(0.5)"/>
+        </g>
+      </svg>
+    </button>
+
+    <button class="btn-obs-scene" id="obs-scene-camera2">
+      <svg id="view-camera2" width="100%" height="100%" viewBox="0 0 800 600">
+        <rect class="fill-camera1" x="0" y="-0" width="800" height="600"/>
+        <g class="fill-camera2">
+          <path d="M231.831,445.295l-238.691,238.691l-94.159,-94.159l253.866,-253.343c-2.502,-6.103 -3.818,-12.693 -3.804,-19.417c0.028,-13.541 5.449,-26.513 15.063,-36.047l60.555,-60.052l60.575,-60.576c4.093,-4.093 9.645,-6.392 15.433,-6.392c5.788,0 11.34,2.3 15.433,6.393c4.093,4.093 6.393,9.644 6.393,15.433c-0,5.788 -2.3,11.34 -6.393,15.433l-60.575,60.575l11.575,11.575l73.308,-73.308c4.093,-4.093 9.644,-6.392 15.432,-6.392c5.789,-0 11.341,2.299 15.434,6.393c4.093,4.093 6.392,9.644 6.392,15.433c0,5.788 -2.299,11.339 -6.392,15.432l-73.308,73.308l11.575,11.575l73.308,-73.308c4.093,-4.093 9.644,-6.392 15.433,-6.392c5.788,-0 11.34,2.3 15.433,6.393c4.093,4.093 6.392,9.644 6.392,15.433c0,5.788 -2.299,11.34 -6.392,15.433l-115.749,115.748l11.575,11.575l49.386,-49.386c4.093,-4.093 9.645,-6.393 15.433,-6.393c5.789,0 11.34,2.3 15.433,6.393c4.093,4.093 6.393,9.645 6.393,15.433c0,5.789 -2.299,11.34 -6.392,15.433l-60.831,60.831c-14.975,14.974 -35.284,23.387 -56.461,23.387c-14.432,-0 -28.461,-3.907 -40.673,-11.135Z" />
+          <path d="M637.279,565.045l270.612,270.612l94.158,-94.159l-285.79,-285.255c2.504,-6.106 3.822,-12.698 3.808,-19.426c-0.029,-13.541 -5.449,-26.513 -15.064,-36.047l-60.555,-60.052l-60.575,-60.575c-4.093,-4.093 -9.644,-6.393 -15.433,-6.393c-5.788,0 -11.34,2.3 -15.433,6.393c-4.093,4.093 -6.393,9.645 -6.393,15.433c0,5.788 2.3,11.34 6.393,15.433l60.575,60.575l-11.575,11.575l-73.307,-73.308c-4.093,-4.093 -9.645,-6.392 -15.433,-6.392c-5.788,-0 -11.34,2.3 -15.433,6.393c-4.093,4.093 -6.393,9.644 -6.393,15.433c0,5.788 2.3,11.34 6.393,15.433l73.307,73.307l-11.575,11.575l-73.307,-73.308c-4.093,-4.093 -9.645,-6.392 -15.433,-6.392c-5.789,-0 -11.34,2.3 -15.433,6.393c-4.093,4.093 -6.393,9.644 -6.393,15.433c-0,5.788 2.299,11.34 6.392,15.433l115.749,115.748l-11.575,11.575l-49.386,-49.386c-4.093,-4.093 -9.644,-6.393 -15.433,-6.393c-5.788,0 -11.34,2.3 -15.433,6.393c-4.093,4.093 -6.393,9.645 -6.393,15.433c0,5.789 2.3,11.34 6.393,15.433l60.831,60.831c14.974,14.974 35.284,23.387 56.461,23.387c14.432,-0 28.461,-3.907 40.673,-11.135Z" />
+        </g>
+      </svg>
+    </button>
+
+    <button class="btn-obs-scene" id="obs-scene-camera1-keyed">
+      <svg id="view-camera1-keyed" width="100%" height="100%" viewBox="0 0 800 600">
+        <defs>
+          <pattern class="color-keyed1" id="pattern-lines2" viewBox="0 0 8 8" width="80" height="80" patternUnits="userSpaceOnUse" >
+            <path d="M4,0 l4,4 m-4,4 l-4,-4" stroke="currentColor" stroke-width="3" stroke-linecap="square"></path>
+          </pattern>
+        </defs>
+
+        <rect class="fill-keyed2" width="800" height="600"/>
+        <rect fill="url(#pattern-lines2)" width="800" height="600" />
+        
+        <g class="color-camera2">
+          <use xlink:href="#svg-person" fill="currentColor" />
+        </g>
+      </svg>
+    </button>
+
+    <button class="btn-obs-scene" id="obs-scene-camera1-keyed-pip-media">
+      <svg id="view-camera1-keyed-pip-media" width="100%" height="100%" viewBox="0 0 800 600">
+        <defs>
+          <pattern class="color-keyed1" id="pattern-lines2" viewBox="0 0 8 8" width="80" height="80" patternUnits="userSpaceOnUse" >
+            <path d="M4,0 l4,4 m-4,4 l-4,-4" stroke="currentColor" stroke-width="3" stroke-linecap="square"></path>
+          </pattern>
+        </defs>
+
+        <rect class="fill-keyed2" width="800" height="600"/>
+        <rect class="color-keyed1" fill="url(#pattern-lines2)" width="800" height="600" />
+
+        <g class="svg-pip-landscape">
+          <g class="color-media1">
+            <use xlink:href="#pip-rect" fill="currentColor" />
+          </g>
+          <g class="color-media2" clip-path="url(#pip-rect-clip)">
+            <use xlink:href="#svg-landscape" fill="currentColor" transform="translate(70 70) scale(0.35)"/>
+          </g>
+        </g>
+
+        <g class="color-camera2">
+          <use xlink:href="#svg-person" fill="currentColor" transform="translate(160 0)"/>
+        </g>
+
+      </svg>
+
+    </button>
+
+  </div>
+
+
+  <script>
+
+    const log = console.log;
+
+    // Port 4455
+    // Pass 88GIDuYxFLAroLQw
+
+    const cArray = {
+      camera1: '#e099fe',
+      camera2: '#8a12b2',
+      media1:  '#22ccff',
+      media2:  '#316eff',
+      keyed1:  '#00ffbb',
+      keyed1:  '#40bf5f',
+    }
+    const cInputs = document.querySelectorAll('input[type=color]');
+    // log(cInputs);
+    /*cInputs.forEach( elm => {
+      log(elm.name);
+      elm.value = cArray[elm.name];
+    })*/
+
+  </script>
 </body>
-<script>
-  const bc = new BroadcastChannel('chan');
-
-  const msgOutput = document.querySelector('#msgOutput');
-
-  const btnMsg = document.querySelector('#btnMsg');
-  btnMsg.addEventListener('click', e => {
-    bc.postMessage(`Control Panel! ${new Date().getTime()}`);
-  })
-
-  bc.addEventListener("message", (event) => {
-    msgOutput.textContent = event.data;
-  });
-</script>
 </html>
