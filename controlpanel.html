@@ -3,23 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Display</title>
+  <title>Control Panel</title>
   <meta name="google" content="notranslate">
   <link rel="stylesheet" href="base.css">
-  <style>
-    html {
-      background-color: #0fb;
-    }
-    body {
-      margin: 0;
-      font-size: 4cqw;
-      padding: 1em;
-    }
-  </style>
 </head>
 <body>
-  <h1>Display</h1>
-  <button id="btnMsg">Say 'display'</button>
+  <h1>Control Panel</h1>
+  <button id="btnMsg">Say 'Control Panel!'</button>
   <div id="msgOutput">[msg]</div>
 </body>
 <script>
@@ -29,15 +19,11 @@
 
   const btnMsg = document.querySelector('#btnMsg');
   btnMsg.addEventListener('click', e => {
-    bc.postMessage(`Display! ${new Date().getTime()}`);
-  });
+    bc.postMessage(`Control Panel! ${new Date().getTime()}`);
+  })
 
   bc.addEventListener("message", (event) => {
     msgOutput.textContent = event.data;
-    if (event.data.key && event.data.key == 'bg') {
-      body.style.backgroundColor = event.data.val
-    }
   });
-
 </script>
 </html>

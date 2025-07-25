@@ -1,0 +1,28 @@
+*, *::before, *::after { box-sizing: border-box }
+
+html {
+  font-family: -system-ui, -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Helvetica, Arial, apple color emoji, segoe ui emoji, segoe ui symbol, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+
+  --bg: #eee;
+  --text: #000;
+
+  background-color: #fff;
+  container-type: size;
+}
+body {
+  margin: 0;
+  /* font-size: 5cqw; */
+  padding: 1em;
+}
+
+button {
+  appearance: none;
+  font-size: inherit;
+  border: none;
+}
+
+h1 {
+  margin: 0;
+}

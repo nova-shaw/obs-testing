@@ -3,12 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Controls</title>
+  <title>Scratchpad</title>
   <meta name="google" content="notranslate">
+  <link rel="stylesheet" href="base.css">
 </head>
 <body>
-  <h1>Controls</h1>
-  <button id="btnMsg">Say 'controls'</button>
+  <h1>Scratchpad</h1>
+  <button id="btnMsg">Say 'Scratchpad!'</button>
   <div id="msgOutput">[msg]</div>
 </body>
 <script>
@@ -18,7 +19,7 @@
 
   const btnMsg = document.querySelector('#btnMsg');
   btnMsg.addEventListener('click', e => {
-    bc.postMessage(`Controls! ${new Date().getTime()}`);
+    bc.postMessage(`Scratchpad! ${new Date().getTime()}`);
   })
 
   bc.addEventListener("message", (event) => {
