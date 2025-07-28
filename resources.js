@@ -15,6 +15,7 @@ bc.addEventListener("message", (event) => {
   msgOutput.textContent = event.data;
 });
 
+/* MOVED TO controlpanel.js
 
 const obs = new OBSWebSocket();
 
@@ -37,3 +38,4 @@ obsSceneButtonContainer.addEventListener('click', async e => {
   // log(sceneId);
   await obs.call('SetCurrentProgramScene', { sceneName: sceneId });
 })
+*/

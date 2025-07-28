@@ -6,7 +6,7 @@
   <title>Control Panel</title>
 
   <!-- <script src="https://unpkg.com/obs-websocket-js"></script> -->
-  <!-- <script src="https://cdn.jsdelivr.net/npm/obs-websocket-js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/obs-websocket-js"></script>
   <script src="./controlpanel.js" type="module"></script>
   <style>
 
@@ -133,6 +133,7 @@
       border-radius: inherit;
     }
 
+    .btn-obs-scene.active,
     .btn-obs-scene:hover {
       /* box-shadow: 0 0 0 3px #fff; */
       /* background-color: #fff; */
@@ -305,8 +306,6 @@
 
   <script>
 
-    const log = console.log;
-
     // Port 4455
     // Pass 88GIDuYxFLAroLQw
 
@@ -319,11 +318,7 @@
       keyed1:  '#40bf5f',
     }
     const cInputs = document.querySelectorAll('input[type=color]');
-    // log(cInputs);
-    /*cInputs.forEach( elm => {
-      log(elm.name);
-      elm.value = cArray[elm.name];
-    })*/
+
 
   </script>
 </body>
