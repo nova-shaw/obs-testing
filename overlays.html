@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>overlays</title>
+  <meta name="google" content="notranslate">
+  <link rel="stylesheet" href="base.css">
+  <style>
+    html {
+      background-color: transparent;
+    }
+    body {
+      margin: 0;
+      font-size: 4cqw;
+      color: #000;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #logos {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .logo-area {
+      width: 23cqw;
+      aspect-ratio: 1;
+      background-color: #ff0;
+      position: absolute;
+    }
+    .logo-top-left { top: 0; left: 0; }
+    .logo-top-right { top: 0; right: 0; }
+
+
+
+
+    #lowerthirds {
+      position: absolute;
+      left: 1em;
+      bottom: 1em;
+      display: flex;
+      flex-direction: row;
+    }
+
+    .lt-logo {
+      background-color: #0ef;
+      width: 4em;
+      aspect-ratio: 1;
+    }
+
+    .lt-banner {
+      background-color: #fff;
+      padding: 0.25em 0.5em;
+    }
+
+    .lt-banner-title {
+
+    }
+
+    .lt-banner-subtitle {
+
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="logos">
+    <div class="logo-area logo-top-left"></div>
+    <div class="logo-area logo-top-right"></div>
+  </div>
+
+  <div id="lowerthirds">
+    <div class="lt-logo">
+    </div>
+    <div class="lt-banner">
+      <div class="lt-banner-title">Ulysses</div>
+      <div class="lt-banner-subtitle">USA</div>
+    </div>
+  </div>
+
+  <h2>Lower Thirds</h2>
+</html>

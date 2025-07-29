@@ -6,6 +6,14 @@
   <title>Resources</title>
   <meta name="google" content="notranslate">
   <link rel="stylesheet" href="base.css">
+  <style>
+    body {
+      padding: 1em;
+    }
+    #obs-scene-buttons button {
+      display: block;
+    }
+  </style>
   <script src="./resources.js" type="module"></script>
 </head>
 <body>
@@ -14,8 +22,10 @@
   <div id="msgOutput">[msg]</div>
 
   <div id="obs-scene-buttons">
-    <button class="obs-set-scene" data-scene="scene-media">scene-media</button>
     <button class="obs-set-scene" data-scene="scene-camera1">scene-camera1</button>
+    <button class="obs-set-scene" data-scene="scene-camera1-pip-media">scene-camera1-pip-media</button>
+    <button class="obs-set-scene" data-scene="scene-media">scene-media</button>
+    <button class="obs-set-scene" data-scene="scene-media-pip-camera1">scene-media-pip-camera1</button>
     <button class="obs-set-scene" data-scene="scene-camera2">scene-camera2</button>
   </div>
 </body>
