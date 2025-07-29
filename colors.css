@@ -1,0 +1,67 @@
+html {
+
+  /* SET 1 */
+  /* --fill-camera1: #e099fe;
+  --fill-camera2: #8a12b2;
+  --fill-media1:  #2cf;
+  --fill-media2:  #316eff;
+  --fill-keyed1:  #0fb;
+  --fill-keyed2:  #40bf5f; */
+
+  /* SET 2 - pastels from current OBS UI */
+  /* --fill-camera1: #f7eede;
+  --fill-camera2: #c7a7bb;
+  --fill-media1:  #dae5eb;
+  --fill-media2:  #67a9a2;
+  --fill-keyed1:  #dbffe4;
+  --fill-keyed2:  #91ffac; */
+
+  /* SET 3 */
+  /* --fill-camera1: #b57ac2;
+  --fill-camera2: #4f3a77;
+  --fill-media1:  #89b1fb;
+  --fill-media2:  #4364b1;
+  --fill-keyed1:  #c3e8a5;
+  --fill-keyed2:  #8bc380; */
+
+  /* SET 4 */
+  /* --fill-camera1: #c6b3ab;
+  --fill-camera2: #635d81;
+  --fill-media1:  #6989c4;
+  --fill-media2:  #3e5b9f;
+  --fill-keyed1:  #99d4a2;
+  --fill-keyed2:  #85ae91; */
+
+  /* SET 5 */
+  /* --fill-camera1: #d09fbc;
+  --fill-camera2: #4f3a77;
+  --fill-media1:  #6989c4;
+  --fill-media2:  #3e5b9f;
+  --fill-keyed1:  #99d4a2;
+  --fill-keyed2:  #85ae91; */
+
+  /* SET 6 */
+  --fill-camera1: #d973af;
+  --fill-camera2: #791e90;
+  --fill-media1: #00b4ff;
+  --fill-media2: #0073ff;
+  --fill-keyed1: #0fb;
+  --fill-keyed2: #00cc96;
+  
+}
+
+
+.fill-camera1 { fill: var(--fill-camera1); }
+.fill-camera2 { fill: var(--fill-camera2); }
+.fill-media1 { fill: var(--fill-media1); }
+.fill-media2 { fill: var(--fill-media2); }
+.fill-keyed1 { fill: var(--fill-keyed1); }
+.fill-keyed2 { fill: var(--fill-keyed2); }
+.fill-white { fill: #fff; }
+
+.color-camera1 { color: var(--fill-camera1); }
+.color-camera2 { color: var(--fill-camera2); }
+.color-media1  { color: var(--fill-media1); }
+.color-media2  { color: var(--fill-media2); }
+.color-keyed1  { color: var(--fill-keyed1); }
+.color-keyed2  { color: var(--fill-keyed2); }

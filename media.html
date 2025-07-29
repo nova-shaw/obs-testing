@@ -8,12 +8,17 @@
   <link rel="stylesheet" href="base.css">
   <style>
     html {
-      background-color: #0fb;
+      background-color: var(--obs-media-bg);
     }
     body {
       margin: 0;
       font-size: 4cqw;
       padding: 1em;
+      /* background-color: #0fb; */
+      color: #000;
+      height: 100vh;
+      border: 1px solid;
+      border-radius: 1em;
     }
     #cursor {
       position: absolute;
@@ -31,6 +36,10 @@
   <h2>Media</h2>
   <button id="btnMsg">Say 'media'</button>
   <div id="msgOutput">[msg]</div>
+  <div id="key">
+    <span>Key Detected:</span>
+    <span id="key-readout"></span>
+  </div>
   <div id="cursor"></div>
 </body>
 <script>
@@ -59,6 +68,12 @@
     // cursor.style.translate = `${(e.pageX / window.innerWidth * 100)}% ${e.pageY / window.innerHeight * 100}%`;
     // cursor.style = `left: ${(e.pageX / window.innerWidth * 100)}%; top: ${e.pageY / window.innerHeight * 100}%`;
   });
+
+  const readout = document.querySelector('#key-readout');
+  window.addEventListener('keydown', e => {
+    readout.textContent = e.code;
+  });
+  
 
 </script>
 </html>

@@ -5,24 +5,34 @@ html {
   font-size: 16px;
   line-height: 1.5;
 
-  --bg: #eee;
-  --text: #000;
+  /* container-type: size; */
 
-  background-color: #fff;
-  container-type: size;
+  --obs-panel-bg: #2b2e38;
+  --obs-media-bg: #0fb;
+  background-color: var(--obs-panel-bg);
 }
+
 body {
   margin: 0;
-  /* font-size: 5cqw; */
   padding: 1em;
+  color: #fff;
+  container-type: size;
+}
+
+svg {
+  display: block;
 }
 
 button {
   appearance: none;
-  font-size: inherit;
   border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 0;
 }
 
 h1, h2, h3 {
   margin: 0;
+  font-size: 1.25em;
 }
