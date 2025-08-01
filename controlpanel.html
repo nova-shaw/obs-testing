@@ -51,6 +51,8 @@
       color: transparent;
       display: none;
       /* box-shadow: inset 0 0 0 5px currentColor; */
+      height: auto;
+      padding: 0;
     }
 
     .btn-obs-scene.exists {
@@ -193,6 +195,7 @@
       </svg>
     </button>
 
+    <!--
     <button class="btn-obs-scene" id="obs-scene-camera1-keyed">
       <svg id="view-camera1-keyed" width="100%" height="100%" viewBox="0 0 800 600">
         <defs>
@@ -237,11 +240,15 @@
       </svg>
 
     </button>
+    -->
 
   </div>
 
+  <hr>
   <button id="btn-toggle-keying">Keying</button>
+  <input id="keying-color" type="color" value="#ffffff">
 
+  <hr>
   <div id="msgOutput">[msg]</div>
 
   <div id="key">
