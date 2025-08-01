@@ -1,5 +1,9 @@
 const log = console.log;
 
+const camera1Name = 'src-camera1-ishiguro';
+const camera1KeyFilterName = 'Colour Key';
+let keyingEnabled = false;
+
 const obsBC = new BroadcastChannel('obsBC');
 
 const msgOutput = document.querySelector('#msgOutput');
@@ -41,6 +45,15 @@ const connection = await obsWS.connect('ws://127.0.0.1:4455', 'huwspZ8H7vTp0CYL'
         obsSettings = data;
         log(obsSettings);
       });
+      obsWS.call('GetSourceFilter', {
+        sourceName: camera1Name,
+        filterName: camera1KeyFilterName
+        }).then(data => {
+          // log('GetSourceFilter', data);
+          keyingEnabled = data.filterEnabled;
+          document.body.classList.toggle('keyingOn', keyingEnabled);
+          // log('green screen enabled', keyingEnabled);
+        });
       obsWS.call('GetHotkeyList').then(data => {
         log('GetHotkeyList', data);
       });
@@ -62,6 +75,15 @@ obsWS.on('ConnectionOpened', () => {
     log(data.scenes);
     log(data);
   })
+});
+
+
+obsWS.on('SourceFilterEnableStateChanged', data => {
+  // log('SourceFilterEnableStateChanged', data);
+  if (data.sourceName === camera1Name && data.filterName === camera1KeyFilterName) {
+    keyingEnabled = data.filterEnabled;
+    document.body.classList.toggle('keyingOn', keyingEnabled);
+  }
 });
 
 obsWS.on('SceneTransitionStarted', data => {
@@ -117,6 +139,18 @@ function sceneButtonsClick(e) {
   btn.classList.add('transitioning');
   obsWS.call('SetCurrentProgramScene', {
     sceneName: btn.dataset.scene
+  });
+}
+
+const btnToggleKeying = document.querySelector('#btn-toggle-keying');
+btnToggleKeying.addEventListener('click', toggleColorKey);
+function toggleColorKey(e) {
+  keyingEnabled = !keyingEnabled;
+  // document.body.classList.toggle('keyingOn', keyingEnabled);
+  obsWS.call('SetSourceFilterEnabled', {
+    sourceName: camera1Name,
+    filterName: camera1KeyFilterName,
+    filterEnabled: keyingEnabled
   });
 }
 

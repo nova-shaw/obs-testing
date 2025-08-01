@@ -6,14 +6,153 @@
   <title>Scratchpad</title>
   <meta name="google" content="notranslate">
   <link rel="stylesheet" href="base.css">
+  <style>
+    body {
+      /* display: flex; */
+      /* flex-direction: column; */
+      /* padding: 0.5em; */
+    }
+
+    #notes {
+      display: flex;
+      flex-direction: column;
+      /* border: 1px solid; */
+      /* flex: 100% 1 1; */
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+    }
+    
+    #notes-list {
+      display: flex;
+      flex-direction: column;
+      flex: 100% 1 1;
+      padding: 0.5em;
+      gap: 0.25em;
+      overflow: hidden auto;
+    }
+
+    .note {
+      position: relative;
+      background-color: #fff2;
+      background-color: #b8bbd422;
+      background-color: #bbd2;
+      border-radius: 0.25em;
+    }
+    
+    .note-text {
+      /* padding: 0 0.25em; */
+      padding: 0.25em 0.5em;
+      height: 2em;
+      transition: height 200ms ease-out;
+      overflow: hidden auto; /* would rather not do this - allows for scrollbars within scrollbars, but best option just in case */
+      white-space: pre-line;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: calc(100% - 4em);
+    }
+
+    .note-text:focus,
+    .note-text:focus-within {
+      width: 100%;
+      height: 70vh;
+      white-space: pre-line;
+    }
+
+    .note-actions {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      flex-direction: row;
+      gap: 0.25em;
+    }
+
+    .note-actions button {
+      width: 2em;
+      justify-content: center;
+      /* font-size: 1.25em; */
+    }
+
+    .note-actions button.btn-note-delete {}
+    .note-actions button.btn-note-delete:hover {
+      background-color: #c34867;
+    }
+
+
+
+    
+    #notes-controls {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      border-top: 2px solid #fff4;
+      padding: 0.5em;
+    }
+
+    #clear-all-notes {}
+    #new-note {}
+  </style>
 </head>
 <body>
+  <div id="notes">
+    <div id="notes-list">
+      <div class="note">
+        <div class="note-text" contenteditable>Here is some text~b\nDoes this break?</div>
+        <div class="note-actions">
+          <button class="btn-note-delete">&times;</button>
+          <button class="btn-note-show">↑</button>
+        </div>
+      </div>
+      <div class="note">
+        <div class="note-text" contenteditable>Here is some text&#13;Maybe this does&shy;Nope?</div>
+        <div class="note-actions">
+          <button class="btn-note-delete">&times;</button>
+          <button class="btn-note-show">↑</button>
+        </div>
+      </div>
+      <div class="note">
+        <div class="note-text" contenteditable>Here is &#10; A new line maybe? &#10; Or only if we set something in the CSS?</div>
+        <div class="note-actions">
+          <button class="btn-note-delete">&times;</button>
+          <button class="btn-note-show">↑</button>
+        </div>
+      </div>
+      <div class="note">
+        <div class="note-text" contenteditable>This fourth one has a single really long line of text in it</div>
+        <div class="note-actions">
+          <button class="btn-note-delete">&times;</button>
+          <button class="btn-note-show">↑</button>
+        </div>
+      </div>
+      <div class="note">
+        <div class="note-text" contenteditable>Here is some text</div>
+        <div class="note-actions">
+          <button class="btn-note-delete">&times;</button>
+          <button class="btn-note-show">↑</button>
+        </div>
+      </div>
+      <div class="note">
+        <div class="note-text" contenteditable>Here is some text</div>
+        <div class="note-actions">
+          <button class="btn-note-delete">&times;</button>
+          <button class="btn-note-show">↑</button>
+        </div>
+      </div>
+    </div>
+    <div id="notes-controls">
+      <button id="clear-all-notes">Clear</button>
+      <button id="new-note">+ Add</button>
+    </div>
+  </div>
+
+  <!--
   <h1>Scratchpad</h1>
   <button id="btnMsg">Say 'Scratchpad!'</button>
   <div id="msgOutput">[msg]</div>
+  -->
 </body>
 <script>
-  const bc = new BroadcastChannel('chan');
+  /*const bc = new BroadcastChannel('chan');
 
   const msgOutput = document.querySelector('#msgOutput');
 
@@ -24,6 +163,6 @@
 
   bc.addEventListener("message", (event) => {
     msgOutput.textContent = event.data;
-  });
+  });*/
 </script>
 </html>

@@ -17,6 +17,8 @@ body {
   padding: 0;
   color: #fff;
   container-type: size;
+  width: 100%;
+  height: 100vh;
 }
 
 svg {
@@ -26,10 +28,21 @@ svg {
 button {
   appearance: none;
   border: none;
-  background: transparent;
+  /* background: #fff2; */
+  background-color: #b8bbd422;
   color: inherit;
   font: inherit;
-  padding: 0;
+  padding: 0 0.5em;
+  border-radius: 0.25em;
+  display: flex;
+  flex-direction: row;
+  height: 2em;
+  align-items: center;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #05f;
 }
 
 h1, h2, h3 {

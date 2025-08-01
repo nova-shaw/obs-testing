@@ -71,11 +71,15 @@
       box-shadow: 0 0 0 3px #fff;
     }
 
+
+    body.keyingOn {
+      --fill-camera1: #0fb;
+      /* --fill-camera1: #0c9; */
+    }
   </style>
 </head>
 <body>
 
-  <div id="msgOutput">[msg]</div>
 
   <!-- <div id="color-inputs">
     <input type="color" name="camera1">
@@ -235,6 +239,10 @@
     </button>
 
   </div>
+
+  <button id="btn-toggle-keying">Keying</button>
+
+  <div id="msgOutput">[msg]</div>
 
   <div id="key">
     <span>Key Detected:</span>
