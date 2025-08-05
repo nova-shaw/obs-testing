@@ -70,6 +70,11 @@ const connection = await obsWS.connect('ws://127.0.0.1:4455', 'huwspZ8H7vTp0CYL'
       obsWS.call('GetHotkeyList').then(data => {
         log('GetHotkeyList', data);
       });
+      obsWS.call('OpenInputFiltersDialog', {
+        inputName: camera1Name
+      }).then(data => {
+        log('OpenInputFiltersDialog', data);
+      });
 
     },
     (error) => {
