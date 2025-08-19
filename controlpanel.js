@@ -83,13 +83,27 @@ const connection = await obsWS.connect('ws://127.0.0.1:4455', 'huwspZ8H7vTp0CYL'
     });
 
 
+/*
+Android Color Format refs:
+- https://convertingcolors.com/android-color-4278255360.html
+- https://stackoverflow.com/questions/61842817/convert-android-color-to-hex-or-rgb
+- https://stackoverflow.com/questions/34546293/android-convert-color-in-rgba-to-hex-format
+*/
+
 /**
+ * Due to format used by OBS Chroma Key Filter (https://obsproject.com/kb/chroma-key-filter)
  * #00FF00
  * =
  * 4278255360
- * Apparently
+ * Is apparently
  * AARRGGBB (Alpha-Red-Green-Blue)
  * `android.graphics.Colors` are in hexadecimal AARRGGBB (Alpha-Red-Green-Blue) format, converted to decimals.
+ * according to https://stackoverflow.com/a/61843818
+ *
+ * Also:
+ * 4278255360.toString(16) = 'ff00ff00' looks like AARRGGBB
+ * and
+ * parseInt('ff00ff00', 16) = 4278255360
  */
 
 function logKeyColor(data) {
