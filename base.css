@@ -8,7 +8,7 @@ html {
   /* container-type: size; */
 
   --obs-panel-bg: #2b2e38;
-  --obs-media-bg: #0fb;
+  --obs-media-bg: #0bf;
   background-color: var(--obs-panel-bg);
 }
 
