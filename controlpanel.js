@@ -1,3 +1,6 @@
+
+import * as ws from './websocket-logins.js';
+
 const log = console.log;
 
 const camera1Name = 'Camera1';
@@ -35,7 +38,9 @@ const obsWS = new OBSWebSocket();
 let obsSettings;
 
 // const connection = await obsWS.connect('ws://127.0.0.1:4455', 'huwspZ8H7vTp0CYL');
-const connection = await obsWS.connect('ws://127.0.0.1:4455', 'huwspZ8H7vTp0CYL')
+// const connection = await obsWS.connect('ws://127.0.0.1:4455', 'huwspZ8H7vTp0CYL')
+// const connection = await obsWS.connect('ws://192.168.16.94:4455', 'zw0G1SDYc12XyiiI')
+const connection = await obsWS.connect(`ws://${ws.env.url}:${ws.env.port}`, ws.env.password)
   .then(
     (connectionDetails) => {
       log(connectionDetails);

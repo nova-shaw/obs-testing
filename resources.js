@@ -8,11 +8,13 @@ const obsBC = new BroadcastChannel('obsBC');
 
 // Change scene in OBS via Broadcast Channel to controlpanel.html
 const sceneButtonContainer = document.querySelector('#obs-scene-buttons');
+log(sceneButtonContainer);
 
 sceneButtonContainer.addEventListener('click', sceneButtonsClick);
 
 function sceneButtonsClick(e) {
   const btn = e.target.closest('button');
+  log('scene:', btn.dataset.scene);
   if (!btn) return;
   obsBC.postMessage( { key: 'scene', val: btn.dataset.scene } );
 }
