@@ -3,9 +3,58 @@ import * as ws from './websocket-logins.js';
 
 const log = console.log;
 
+
+///////////////////////////////////////////////////////////////
+// OBS elements
+
 const camera1Name = 'Camera1';
 // const camera1KeyFilterName = 'Colour Key';
 const camera1KeyFilterName = 'Chroma Key';
+
+
+///////////////////////////////////////////////////////////////
+// DOM Elements
+
+const inputKeyColor = document.querySelector(('#input-keying-color'));
+
+
+///////////////////////////////////////////////////////////////
+// Chroma Key change
+
+inputKeyColor.addEventListener('input', e => {
+  const hexColor = e.currentTarget.value;
+  const androidColor = hexToAndroid(hexColor);
+
+
+  // THIS is almost it! But seems the Red and Blue channels are swapped!
+  // Not AARRGGBB ! - Should be AABBGGRR
+  const androidColorInt = parseInt(androidColor, 16);
+
+  const aabbggrr = `ff${hexColor.replace('#', '').split('').reverse().join('')}`;
+  log('aabbggrr', aabbggrr);
+  const aColor = parseInt(aabbggrr, 16);
+
+  // const hexARGBColor = hexColor.replace('#','').toString(16);
+  // log('key color change', hexColor, androidColor);
+  // log('hexARGBColor', hexARGBColor);
+  // log('androidColorInt', androidColorInt);
+
+  obsWS.call('SetSourceFilterSettings', {
+    sourceName: camera1Name,
+    filterName: 'Chroma Key',
+    filterSettings: {
+      key_color_type: 'custom',
+      // key_color: 16711680
+      // key_color: androidColor
+      // key_color: hexColor
+      // key_color: androidColorInt
+      key_color: aColor
+    }
+  });
+});
+
+///////////////////////////////////////////////////////////////
+
 let keyingEnabled = false;
 
 const obsBC = new BroadcastChannel('obsBC');
@@ -57,20 +106,12 @@ const connection = await obsWS.connect(`ws://${ws.env.url}:${ws.env.port}`, ws.e
         }).then(data => {
           log('GetSourceFilter', data);
 
-
           keyingEnabled = data.filterEnabled;
           document.body.classList.toggle('keyingOn', keyingEnabled);
           log('green screen enabled', keyingEnabled);
 
+          inputKeyColor.value = `#${androidToHex(data.filterSettings.key_color)}`;
           logKeyColor(data.filterSettings);
-          const selectColor = document.querySelector(('#keying-color'));
-
-          // selectColor.value = '#00ff00';
-          selectColor.value = `#${andrToHex(data.filterSettings.key_color)}`;
-
-          selectColor.addEventListener('input', e => {
-            log(e.currentTarget.value);
-          })
         });
       obsWS.call('GetHotkeyList').then(data => {
         log('GetHotkeyList', data);
@@ -109,6 +150,10 @@ Android Color Format refs:
  * 4278255360.toString(16) = 'ff00ff00' looks like AARRGGBB
  * and
  * parseInt('ff00ff00', 16) = 4278255360
+
+ * > The OBS API natively uses the ABGR color format. This stores color as a 32-bit integer where the values are arranged as: Alpha (transparency), Blue, Green, and Red.
+
+ So is it AARRGGBB or AABBGGRR ?
  */
 
 function logKeyColor(data) {
@@ -117,9 +162,9 @@ function logKeyColor(data) {
   const androidColor = rgbaToAndroid(rgba);
   log(androidColor);
 
-  const a = andrToHex(data.key_color);
+  const a = androidToHex(data.key_color);
   log(a);
-  const b = rgbToAndr(a);
+  const b = rgbToAndroid(a);
   log(b);
 
 /*
@@ -135,11 +180,47 @@ function logKeyColor(data) {
   // yourNumber = parseInt(hexString, 16);
 }
 
-function andrToHex(color) { // convert decimal to hex, remove first 2 characters (alpha in Anrdoid colors)
-  return color.toString(16).slice(-6);
+// function androidToHex(color) { // convert decimal to hex, remove first 2 characters (alpha in Anrdoid colors)
+//   return color.toString(16).slice(-6);
+// }
+
+function androidToHex(colorInt) {
+  // Convert signed 32-bit integer to unsigned using unsigned right shift
+  const unsignedColor = colorInt >>> 0;
+
+  // Convert to hex string and pad with leading zeros to guarantee 8 characters
+  let hex = unsignedColor.toString(16).padStart(8, '0');
+
+  // Rearrange from Android's AARRGGBB to web standard RRGGBBAA
+  const alpha = hex.slice(0, 2);
+  const rgb = hex.slice(2);
+
+  // return `#${rgb}${alpha}`.toUpperCase();
+  return `${rgb}`;
 }
 
-function rgbToAndr(color) { // add 100% opacity to front, convert hex to decimal
+function hexToAndroid(jsHex) {
+  // Remove the '#' if it exists
+  let cleanHex = jsHex.replace('#', '');
+
+  // If 6 characters (RRGGBB), add full opacity (FF) to the front
+  if (cleanHex.length === 6) {
+      return `FF${cleanHex}`;
+  }
+
+  // If 8 characters (RRGGBBAA), move AA to the front -> AARRGGBB
+  if (cleanHex.length === 8) {
+      let rrggbb = cleanHex.substring(0, 6);
+      let aa = cleanHex.substring(6, 8);
+      return `${aa}${rrggbb}`;
+  }
+
+  throw new Error("Invalid Hex color length");
+}
+
+
+
+function rgbToAndroid(color) { // add 100% opacity to front, convert hex to decimal
   return parseInt(`ff${color}`, 16);
 }
 
@@ -164,8 +245,8 @@ function rgbaToAndroid(color) {
 obsWS.on('ConnectionOpened', () => {
   log('ConnectionOpened');
   obsWS.send('GetSceneList').then(data => {
-    log(data.scenes);
-    log(data);
+    // log(data.scenes);
+    log('ConnectionOpened > GetSceneList', data);
   })
 });
 
