@@ -22,20 +22,32 @@ const inputKeyColor = document.querySelector(('#input-keying-color'));
 // Chroma Key change
 
 inputKeyColor.addEventListener('input', e => {
-  const hexColor = e.currentTarget.value;
-  const androidColor = hexToAndroid(hexColor);
+  /*
+  Ok so KML uses the same AABBGGRR color format.
+  But the Android color format is that KML pattern but converted to a 16bit integer.
+  Note: the order of the pairs is THE SAME as in hexadecimal, not just simply reversing the whole RRGGBB string
+  So
+  R1 R2 G1 G2 B1 B2
+  is
+  B1 B2 G1 G2 R1 R2
+  I think
+  */
 
+  const rawValue = e.currentTarget.value;
+  log('rawValue', rawValue);
+  const androidColor = hexToAndroid(rawValue);
+  log('androidColor', androidColor);
 
   // THIS is almost it! But seems the Red and Blue channels are swapped!
   // Not AARRGGBB ! - Should be AABBGGRR
-  const androidColorInt = parseInt(androidColor, 16);
+  // const androidColorInt = parseInt(androidColor, 16);
 
-  const aabbggrr = `ff${hexColor.replace('#', '').split('').reverse().join('')}`;
-  log('aabbggrr', aabbggrr);
-  const aColor = parseInt(aabbggrr, 16);
+  // const aabbggrr = `ff${rawValue.replace('#', '').split('').reverse().join('')}`;
+  // log('aabbggrr', aabbggrr);
+  // const aColor = parseInt(aabbggrr, 16);
 
-  // const hexARGBColor = hexColor.replace('#','').toString(16);
-  // log('key color change', hexColor, androidColor);
+  // const hexARGBColor = rawValue.replace('#','').toString(16);
+  // log('key color change', rawValue, androidColor);
   // log('hexARGBColor', hexARGBColor);
   // log('androidColorInt', androidColorInt);
 
@@ -46,9 +58,10 @@ inputKeyColor.addEventListener('input', e => {
       key_color_type: 'custom',
       // key_color: 16711680
       // key_color: androidColor
-      // key_color: hexColor
+      // key_color: rawValue
       // key_color: androidColorInt
-      key_color: aColor
+      // key_color: aColor
+      key_color: androidColor
     }
   });
 });
@@ -199,7 +212,18 @@ function androidToHex(colorInt) {
   return `${rgb}`;
 }
 
-function hexToAndroid(jsHex) {
+
+function hexToAndroid(hexColor) {
+  // #f101a1 -> ['f', '1', '0', '1', 'a', '1']
+  const hexArray = hexColor.replace('#', '').split('');
+  const bbggrr = [hexArray[4], hexArray[5], hexArray[2], hexArray[3], hexArray[0], hexArray[1]].join('');
+  // log('HEX', hexColor, 'bbggrr', bbggrr);
+  return parseInt(`ff${bbggrr}`, 16);
+}
+
+
+
+function hexToAndroid_1(jsHex) {
   // Remove the '#' if it exists
   let cleanHex = jsHex.replace('#', '');
 
