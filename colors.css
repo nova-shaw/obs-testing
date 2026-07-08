@@ -41,13 +41,20 @@ html {
   --fill-keyed2:  #85ae91; */
 
   /* SET 6 */
-  --fill-camera1: #d973af;
+  /*--fill-camera1: #d973af;
   --fill-camera2: #791e90;
   --fill-media1: #00b4ff;
   --fill-media2: #0073ff;
   --fill-keyed1: #0fb;
-  --fill-keyed2: #00cc96;
+  --fill-keyed2: #00cc96;*/
   
+  /* SET 7 */
+  --fill-camera1: #b9ecf6;
+  --fill-camera2: #666666;
+  --fill-media1: #47b9fc;
+  --fill-media2: #00746a;
+  --fill-keyed1: #0fb;
+  --fill-keyed2: #00cc96;
 }
 
 
